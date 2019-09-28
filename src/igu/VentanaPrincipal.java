@@ -8,21 +8,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.GridLayout;
-import java.awt.Font;
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class VentanaPrincipal extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel pnNorte;
 	private JLabel lblImagenPrincipal;
@@ -99,7 +95,7 @@ public class VentanaPrincipal extends JFrame {
 			btnRegistrarse = new JButton("Registrarse");
 			btnRegistrarse.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					mostrarVentanaRegistro();
 				}
 			});
 			btnRegistrarse.setMnemonic('R');
@@ -111,5 +107,11 @@ public class VentanaPrincipal extends JFrame {
 			btnIniciarSesion = new JButton("Iniciar sesion");
 		}
 		return btnIniciarSesion;
+	}
+	
+	private void mostrarVentanaRegistro() {
+		VentanaRegistro vR = new VentanaRegistro(this);
+		vR.setLocationRelativeTo(this);
+		vR.setVisible(true);
 	}
 }
