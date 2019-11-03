@@ -7,6 +7,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+
+import logica.Usuario;
+
 import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
@@ -164,8 +167,10 @@ public class VentanaRegistro extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 					if (check()) {
 						JOptionPane.showMessageDialog(null, "Registrado con exito");
+						Usuario user = new Usuario(getTxtNombreYApellidos().getText(),
+								getPasswordField().getPassword().toString(), 100, new int[5]);
 						dispose();
-					}else
+					} else
 						JOptionPane.showMessageDialog(null, "Nombre vacio o la contraseña no coincide");
 				}
 			});
