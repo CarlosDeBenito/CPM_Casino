@@ -6,16 +6,22 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logica.Menu;
+import logica.OrderBar;
+import logica.ProductBar;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.ComponentOrientation;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
-import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JScrollPane;
@@ -46,8 +52,8 @@ public class VentanaPrincipal extends JFrame {
 	private JPanel pnPrinicpalBar;
 	private JLabel lblConsumiciones;
 	private JLabel lblUnidades;
-	private JComboBox comboBox;
-	private JSpinner spinner;
+	private JComboBox<ProductBar> cmbBoxBar;
+	private JSpinner spnUnidadesBar;
 	private JPanel pnAnnadirEliminarBar;
 	private JButton btnAadir;
 	private JButton btnEliminar;
@@ -60,6 +66,9 @@ public class VentanaPrincipal extends JFrame {
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
 	private JLabel lblPedido;
+
+	private Menu menu;
+	private OrderBar orderBar;
 
 	/**
 	 * Launch the application.
@@ -81,6 +90,8 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		menu = new Menu();
+		orderBar = new OrderBar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1264, 635);
 		contentPane = new JPanel();
@@ -295,8 +306,8 @@ public class VentanaPrincipal extends JFrame {
 			pnPrinicpalBar.setLayout(new GridLayout(3, 2, 0, 0));
 			pnPrinicpalBar.add(getLblConsumiciones());
 			pnPrinicpalBar.add(getLblUnidades());
-			pnPrinicpalBar.add(getComboBox());
-			pnPrinicpalBar.add(getSpinner());
+			pnPrinicpalBar.add(getCmbBoxBar());
+			pnPrinicpalBar.add(getSpnUnidadesBar());
 			pnPrinicpalBar.add(getPnAnnadirEliminarBar());
 			pnPrinicpalBar.add(getPnPrecioBar());
 		}
@@ -318,35 +329,48 @@ public class VentanaPrincipal extends JFrame {
 		return lblUnidades;
 	}
 
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
+	private JComboBox<ProductBar> getCmbBoxBar() {
+		if (cmbBoxBar == null) {
+			cmbBoxBar = new JComboBox<ProductBar>();
 		}
-		return comboBox;
+		return cmbBoxBar;
 	}
 
-	private JSpinner getSpinner() {
-		if (spinner == null) {
-			spinner = new JSpinner();
-			spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+	private JSpinner getSpnUnidadesBar() {
+		if (spnUnidadesBar == null) {
+			spnUnidadesBar = new JSpinner();
+			spnUnidadesBar.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		}
-		return spinner;
+		return spnUnidadesBar;
 	}
 
 	private JPanel getPnAnnadirEliminarBar() {
 		if (pnAnnadirEliminarBar == null) {
 			pnAnnadirEliminarBar = new JPanel();
 			pnAnnadirEliminarBar.setLayout(new GridLayout(0, 2, 0, 0));
-			pnAnnadirEliminarBar.add(getBtnAadir());
+			pnAnnadirEliminarBar.add(getBtnAnnadir());
 			pnAnnadirEliminarBar.add(getBtnEliminar());
 		}
 		return pnAnnadirEliminarBar;
 	}
 
-	private JButton getBtnAadir() {
+	private JButton getBtnAnnadir() {
 		if (btnAadir == null) {
 			btnAadir = new JButton("A\u00F1adir");
 			btnAadir.setMnemonic('A');
+			btnAadir.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if ((int) getSpnUnidadesBar().getValue() > 0) {
+						orderBar.add((ProductBar) getCmbBoxBar().getSelectedItem(), (int) getSpnUnidadesBar().getValue());
+						String precio = orderBar.calcTotal() + "";
+						getTxtPrecioDelPedidoBar().setText(precio);
+						getSpnUnidadesBar().setValue(1);
+						if (!orderBar.getOrderList().isEmpty())
+							getBtnSiguiente().setEnabled(true);
+					} else
+						JOptionPane.showMessageDialog(null, "Por favor seleccione al menos una unidad del producto");
+				}
+			});
 		}
 		return btnAadir;
 	}
@@ -354,6 +378,21 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnEliminar() {
 		if (btnEliminar == null) {
 			btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if (orderBar.unidadesDelPedido(
+							(ProductBar) (getCmbBoxBar().getSelectedItem())) >= (int) getSpnUnidadesBar().getValue()) {
+						orderBar.remove((ProductBar) getCmbBoxBar().getSelectedItem(),
+								(int) getSpnUnidadesBar().getValue());
+						String precio = orderBar.calcTotal() + "";
+						getTxtPrecioDelPedidoBar().setText(precio);
+						getSpnUnidadesBar().setValue(1);
+						if (orderBar.getOrderList().isEmpty())
+							getBtnSiguiente().setEnabled(false);
+					} else
+						JOptionPane.showMessageDialog(null, "No puedes borrar un producto que no has pedido");
+				}
+			});
 			btnEliminar.setMnemonic('E');
 		}
 		return btnEliminar;
