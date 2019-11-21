@@ -8,6 +8,8 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 
+import logica.FileUtil;
+import logica.Prueba;
 import logica.Usuario;
 
 import java.awt.Font;
@@ -15,6 +17,9 @@ import javax.swing.JComboBox;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class VentanaRegistro extends JFrame {
@@ -36,6 +41,8 @@ public class VentanaRegistro extends JFrame {
 	private JButton btnSiguiente;
 	private JButton btnCancelar;
 	private VentanaPrincipal ventana;
+	private FileUtil fileUtil;
+	private Prueba prueba;
 
 	/**
 	 * Create the frame.
@@ -166,10 +173,13 @@ public class VentanaRegistro extends JFrame {
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (check()) {
+						ArrayList<Usuario> lista = new ArrayList<Usuario>();
 						JOptionPane.showMessageDialog(null, "Registrado con exito");
 						Usuario user = new Usuario(getTxtNombreYApellidos().getText(),
 								getPasswordField().getPassword().toString(), 100, new int[5]);
+						lista.add(user);
 						dispose();
+						fileUtil.aniadirCliente(lista);
 					} else
 						JOptionPane.showMessageDialog(null, "Nombre vacio o la contraseña no coincide");
 				}

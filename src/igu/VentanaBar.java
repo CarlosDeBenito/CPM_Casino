@@ -60,6 +60,7 @@ public class VentanaBar extends JDialog {
 	private JPanel pnFiltrosTipo;
 	private JCheckBox chckbxAlchlica;
 	private JCheckBox chckbxBebidasNoAlcholicas;
+	private JLabel lblBar;
 
 	/**
 	 * Create the dialog.
@@ -80,6 +81,7 @@ public class VentanaBar extends JDialog {
 		getContentPane().add(getPnCombox());
 		getContentPane().add(getPnFiltros());
 		getContentPane().add(getPanel());
+		getContentPane().add(getLblBar());
 
 	}
 
@@ -112,7 +114,7 @@ public class VentanaBar extends JDialog {
 			txtFondos = new JTextField();
 			txtFondos.setBackground(Color.WHITE);
 			txtFondos.setEditable(false);
-			txtFondos.setBounds(83, -3, 186, 32);
+			txtFondos.setBounds(83, 0, 186, 29);
 			txtFondos.setColumns(10);
 			txtFondos.setText(usuario.getDinero() + "€");
 		}
@@ -282,7 +284,7 @@ public class VentanaBar extends JDialog {
 		if (pnFiltros == null) {
 			pnFiltros = new JPanel();
 			pnFiltros.setBackground(Color.WHITE);
-			pnFiltros.setBounds(21, 89, 188, 419);
+			pnFiltros.setBounds(21, 89, 200, 419);
 			pnFiltros.setLayout(new GridLayout(2, 0, 0, 0));
 			pnFiltros.add(getPnFiltrosTipo());
 		}
@@ -321,9 +323,17 @@ public class VentanaBar extends JDialog {
 			btnPagar.setEnabled(false);
 			btnPagar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					usuario.setDinero(usuario.getDinero() - orderBar.calcTotal());
-					txtFondos.setText(usuario.getDinero() + "€");
-					// dispose();
+					//Una vez que confirme pagar su pedido se deberia reiniciar. Y cerrar los dos dialogos
+					int res = JOptionPane.showConfirmDialog(null, "¿Seguro que quiere pagar?, Una vez pagado no se podrá devolver", "YES_NO_OPTION", JOptionPane.YES_NO_OPTION,
+							JOptionPane.INFORMATION_MESSAGE);
+					if(res==0) {//Si le da que si
+						usuario.setDinero(usuario.getDinero() - orderBar.calcTotal());
+						txtFondos.setText(usuario.getDinero() + "€");
+						dispose();
+						orderBar.initialize();
+					}
+					
+						
 				}
 			});
 			btnPagar.setMnemonic('P');
@@ -378,6 +388,7 @@ public class VentanaBar extends JDialog {
 	private JCheckBox getChckbxAlchlica() {
 		if (chckbxAlchlica == null) {
 			chckbxAlchlica = new JCheckBox("Alcoh\u00F3licas");
+			chckbxAlchlica.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			chckbxAlchlica.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					filtro();
@@ -385,7 +396,7 @@ public class VentanaBar extends JDialog {
 			});
 			chckbxAlchlica.setSelected(true);
 			chckbxAlchlica.setBackground(Color.WHITE);
-			chckbxAlchlica.setBounds(0, 41, 179, 35);
+			chckbxAlchlica.setBounds(17, 41, 154, 35);
 		}
 		return chckbxAlchlica;
 	}
@@ -393,6 +404,7 @@ public class VentanaBar extends JDialog {
 	private JCheckBox getChckbxBebidasNoAlcholicas() {
 		if (chckbxBebidasNoAlcholicas == null) {
 			chckbxBebidasNoAlcholicas = new JCheckBox("No alcoh\u00F3licas");
+			chckbxBebidasNoAlcholicas.setFont(new Font("Tahoma", Font.PLAIN, 20));
 			chckbxBebidasNoAlcholicas.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					filtro();
@@ -400,8 +412,17 @@ public class VentanaBar extends JDialog {
 			});
 			chckbxBebidasNoAlcholicas.setSelected(true);
 			chckbxBebidasNoAlcholicas.setBackground(Color.WHITE);
-			chckbxBebidasNoAlcholicas.setBounds(0, 89, 179, 35);
+			chckbxBebidasNoAlcholicas.setBounds(17, 89, 166, 35);
 		}
 		return chckbxBebidasNoAlcholicas;
+	}
+	private JLabel getLblBar() {
+		if (lblBar == null) {
+			lblBar = new JLabel("Consumiciones");
+			lblBar.setForeground(Color.RED);
+			lblBar.setFont(new Font("Tahoma", Font.PLAIN, 42));
+			lblBar.setBounds(33, 22, 284, 56);
+		}
+		return lblBar;
 	}
 }

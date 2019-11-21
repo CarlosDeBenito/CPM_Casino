@@ -21,7 +21,6 @@ public class OrderBar {
 			if (a.getCode().equals(item.getCode()))
 				itemInOrder = a;
 		}
-
 		if (itemInOrder == null) {
 			ProductBar itemToOrder = new ProductBar(item);
 			itemToOrder.setUnits(units);
@@ -98,14 +97,14 @@ public class OrderBar {
 		cadena += "TU PEDIDO: \n";
 		cadena += "\n";
 		for (ProductBar product : orderList) {
-			cadena += product + "\n";
-			;
+			cadena += product.toString() + "\n";
 		}
 		cadena += "\n";
 		cadena += "Precio productos: " + calcTotal() + "€ \n";
 		cadena += "Descuentos oferta: " + calcDescuento() + "€ \n";
 		cadena += "Importe total: " + (calcTotal() - calcDescuento()) + "€ \n";
-		cadena += "Su saldo final sera de: " + (user.getDinero() - (calcTotal() - calcDescuento())) + "€ \n";
+		cadena += "Su saldo final sera de: "
+				+ redondearDecimales((user.getDinero() - (calcTotal() - calcDescuento())), 2) + "€ \n";
 		return cadena;
 	}
 
@@ -113,11 +112,21 @@ public class OrderBar {
 	public String toString() {
 		String cadena = "";
 		for (ProductBar product : orderList) {
-			cadena += product.toString2() + "\n";
+			cadena += product.toString() + "\n";
 			;
 		}
 		cadena += "\n";
-		cadena += "Importe total: " + calcTotal() + "\n";
+		cadena += "Importe total: " + redondearDecimales(calcTotal(), 2) + "\n";
 		return cadena;
+	}
+
+	private static double redondearDecimales(double valorInicial, int numeroDecimales) {
+		double parteEntera, resultado;
+		resultado = valorInicial;
+		parteEntera = Math.floor(resultado);
+		resultado = (resultado - parteEntera) * Math.pow(10, numeroDecimales);
+		resultado = Math.round(resultado);
+		resultado = (resultado / Math.pow(10, numeroDecimales)) + parteEntera;
+		return resultado;
 	}
 }

@@ -1,56 +1,14 @@
 package logica;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-public abstract class FileUtil {
-
-	private static Scanner delimitar;
-
-	public static void loadFile(String fileName, List<ProductBar> productsList) {
-		String line;
-		String[] productData = null;
-		try {
-			BufferedReader file = new BufferedReader(new FileReader(fileName));
-			while (file.ready()) {
-				line = file.readLine();
-				productData = line.split("@");
-				productsList.add(new ProductBar(productData[0], productData[1], productData[2],
-						Float.parseFloat(productData[3]), 0));
-			}
-			file.close();
-		} catch (FileNotFoundException fnfe) {
-			System.out.println("File not found.");
-		} catch (IOException ioe) {
-			new RuntimeException("I/O Error.");
-		}
-	}
-
-	public static void saveToFile(String fileName, List<ProductBar> orderList) {
-		try {
-			BufferedWriter file = new BufferedWriter(new FileWriter("files/" + fileName + ".dat"));
-			String line = orderList.toString();
-			file.write(line);
-			file.close();
-		}
-
-		catch (FileNotFoundException fnfe) {
-			System.out.println("The file could not be saved.");
-		} catch (IOException ioe) {
-			new RuntimeException("I/O Error.");
-		}
-	}
-
-	public static String setFileName() {
-		String code = "";
-		String base = "0123456789abcdefghijklmnopqrstuvwxyz";
-		int length = 8;
-		for (int i = 0; i < length; i++) {
-			int numero = (int) (Math.random() * (base.length()));
-			code += base.charAt(numero);
-		}
-		return code;
-	}
+public class Prueba {
 
 	// crea el archivo en disco, recibe como parámetro la lista de estudiantes
 	public static void crearArchivoClientes(ArrayList<Usuario> lista) {
@@ -93,7 +51,7 @@ public abstract class FileUtil {
 			while (scanner.hasNextLine()) {
 				// el objeto scanner lee linea a linea desde el archivo
 				String linea = scanner.nextLine();
-				delimitar = new Scanner(linea);
+				Scanner delimitar = new Scanner(linea);
 				// se usa una expresión regular
 				// que valida que antes o despues de una coma (,) exista cualquier cosa
 				// parte la cadena recibida cada vez que encuentre una coma
@@ -111,7 +69,7 @@ public abstract class FileUtil {
 	}
 
 	// añadir más estudiantes al archivo
-	public void aniadirCliente(ArrayList<Usuario> lista) {
+	public static void aniadirCliente(ArrayList<Usuario> lista) {
 		FileWriter flwriter = null;
 		try {// además de la ruta del archivo recibe un parámetro de tipo boolean, que le
 				// indican que se va añadir más registros

@@ -17,7 +17,7 @@ public class ProductBar {
 	}
 
 	public ProductBar(ProductBar anotherItem) {
-		this(anotherItem.code, anotherItem.type, anotherItem.name, anotherItem.price, anotherItem.units);
+		this(anotherItem.code, anotherItem.name, anotherItem.type, anotherItem.price, anotherItem.units);
 	}
 
 	public String getType() {
