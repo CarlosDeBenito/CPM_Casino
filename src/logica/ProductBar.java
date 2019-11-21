@@ -8,7 +8,7 @@ public class ProductBar {
 	private float price;
 	private int units;
 
-	public ProductBar(String code, String type, String name, float price, int units) {
+	public ProductBar(String code, String name, String type, float price, int units) {
 		this.code = code;
 		this.type = type;
 		this.name = name;
@@ -62,8 +62,6 @@ public class ProductBar {
 
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(this.type);
-		buffer.append(" - ");
 		buffer.append(this.name);
 		buffer.append(" - ");
 		buffer.append(this.price);

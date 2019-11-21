@@ -5,6 +5,7 @@ public class Usuario {
 	private String contrasenna;
 	private double dinero;
 	private int[] monedero;
+	private OrderBar orderBar;
 
 	public Usuario(String nombreApellido, String contrasenna, double dinero, int[] monedero) {
 		super();
@@ -12,6 +13,18 @@ public class Usuario {
 		this.contrasenna = contrasenna;
 		this.dinero = dinero;
 		this.monedero = monedero;
+	}
+
+	public Usuario(String nombreApellido, String contrasenna, double dinero, OrderBar orderBar) {
+		this.nombreApellido = nombreApellido;
+		this.contrasenna = contrasenna;
+		this.dinero = dinero;
+		this.orderBar = new OrderBar();
+		;
+	}
+
+	public OrderBar getOrderBar() {
+		return orderBar;
 	}
 
 	public String getNombreApellido() {

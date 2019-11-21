@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Menu {
 
-	private static final String PRODUCTS_FILE = "files/products.dat";
+	private static final String PRODUCTS_FILE = "files/bebidas.dat";
 	private List<ProductBar> productsList = null;
 
 	public Menu() {
@@ -13,7 +13,7 @@ public class Menu {
 	}
 
 	private void loadProducts() {
-		// FileUtil.loadFile (PRODUCTS_FILE, productsList);
+		 FileUtil.loadFile (PRODUCTS_FILE, productsList);
 	}
 
 	public ProductBar[] getProducts() {

@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import logica.Menu;
 import logica.OrderBar;
 import logica.ProductBar;
+import logica.Usuario;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -69,6 +70,7 @@ public class VentanaPrincipal extends JFrame {
 
 	private Menu menu;
 	private OrderBar orderBar;
+	private Usuario usuario;
 
 	/**
 	 * Launch the application.
@@ -90,8 +92,8 @@ public class VentanaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaPrincipal() {
+		usuario = new Usuario("Carlos", "1", 100.0, orderBar);
 		menu = new Menu();
-		orderBar = new OrderBar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1264, 635);
 		contentPane = new JPanel();
@@ -100,47 +102,7 @@ public class VentanaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getPnNorte(), BorderLayout.NORTH);
-		// contentPane.add(getPnFiltrosBar(), BorderLayout.WEST);
-		contentPane.add(getPnBotones(), BorderLayout.SOUTH);
-		contentPane.add(getPnPrinicpalBar(), BorderLayout.CENTER);
-		// contentPane.add(getPnCarritoBar(), BorderLayout.EAST);
-	}
 
-	public void mostrarCamposJuego() {
-		// contentPane.remove(getLblFoto());
-		// contentPane.add(getBtnCrearActividad());
-	}
-
-	public void borrarCamposJuego() {
-		// contentPane.remove(getLblFoto());
-	}
-
-	public void mostrarCamposBar() {
-		btnConsumiciones.setBackground(new java.awt.Color(255, 235, 205));
-		contentPane.add(getPnPrinicpalBar(), BorderLayout.CENTER);
-		contentPane.add(getPnCarritoBar(), BorderLayout.EAST);
-		contentPane.add(getPnFiltrosBar(), BorderLayout.WEST);
-		// contentPane.remove(getLblFoto());
-		// contentPane.add(getBtnCrearActividad());
-	}
-
-	public void borrarCamposBar() {
-		btnConsumiciones.setBackground(new java.awt.Color(240, 240, 240));
-		contentPane.remove(getPnPrinicpalBar());
-		contentPane.remove(getPnCarritoBar());
-		contentPane.remove(getPnFiltrosBar());
-		// contentPane.remove(getLblFoto());
-	}
-
-	public void mostrarCamposBanca() {
-		btnBanca.setBackground(new java.awt.Color(255, 235, 205));
-		// contentPane.remove(getLblFoto());
-		// contentPane.add(getBtnCrearActividad());
-	}
-
-	public void borrarCamposBanca() {
-		btnBanca.setBackground(new java.awt.Color(240, 240, 240));
-		// contentPane.remove(getLblFoto());
 	}
 
 	private JPanel getPnNorte() {
@@ -195,9 +157,21 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private void mostrarVentanaRegistro() {
-		VentanaRegistro vR = new VentanaRegistro(this);
-		vR.setLocationRelativeTo(this);
-		vR.setVisible(true);
+//		VentanaRegistro vR = new VentanaRegistro(this);
+//		vR.setLocationRelativeTo(this);
+//		vR.setVisible(true);
+	}
+	
+	private void mostrarVentanaBanca() {
+//		VentanaRegistro vR = new VentanaRegistro(this);
+//		vR.setLocationRelativeTo(this);
+//		vR.setVisible(true);
+	}
+	
+	private void mostrarVentanaBar() {
+		VentanaBar vB = new VentanaBar(this, usuario);
+		vB.setLocationRelativeTo(this);
+		vB.setVisible(true);
 	}
 
 	private JPanel getPnOpciones() {
@@ -225,8 +199,7 @@ public class VentanaPrincipal extends JFrame {
 			btnBanca.setForeground(new Color(0, 0, 0));
 			btnBanca.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					borrarCamposBar();
-					mostrarCamposBanca();
+					mostrarVentanaBanca();
 				}
 			});
 			btnBanca.setMnemonic('B');
@@ -239,8 +212,7 @@ public class VentanaPrincipal extends JFrame {
 			btnConsumiciones = new JButton("Consumiciones");
 			btnConsumiciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					borrarCamposBanca();
-					mostrarCamposBar();
+					mostrarVentanaBar();
 
 				}
 			});

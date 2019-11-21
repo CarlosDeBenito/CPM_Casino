@@ -43,7 +43,7 @@ public class OrderBar {
 		if (itemInOrder != null) {
 			int totalUnits = itemInOrder.getUnits() - units;
 			itemInOrder.setUnits(totalUnits);
-			if(totalUnits==0)
+			if (totalUnits == 0)
 				orderList.remove(itemInOrder);
 		}
 	}
@@ -58,9 +58,9 @@ public class OrderBar {
 		}
 		return existe;
 	}
-	
+
 	public int unidadesDelPedido(ProductBar item) {
-		int uds=0;
+		int uds = 0;
 		for (ProductBar a : orderList) {
 			if (a.getCode().equals(item.getCode())) {
 				return a.getUnits();
@@ -85,15 +85,15 @@ public class OrderBar {
 			return 0;
 	}
 
-//	public void saveOrder(String fileName) {
-//		FileUtil.saveToFile(fileName, orderList);
-//	}
+	// public void saveOrder(String fileName) {
+	// FileUtil.saveToFile(fileName, orderList);
+	// }
 
 	public void initialize() {
 		orderList.clear();
 	}
 
-	public String toStringConDescuento() {
+	public String toStringConDescuento(Usuario user) {
 		String cadena = "";
 		cadena += "TU PEDIDO: \n";
 		cadena += "\n";
@@ -102,12 +102,13 @@ public class OrderBar {
 			;
 		}
 		cadena += "\n";
-		cadena += "Precio productos: " + calcTotal() + "\n";
-		cadena += "Descuentos oferta: " + calcDescuento() + "\n";
-		cadena += "Importe total: " + (calcTotal() - calcDescuento()) + "\n";
+		cadena += "Precio productos: " + calcTotal() + "€ \n";
+		cadena += "Descuentos oferta: " + calcDescuento() + "€ \n";
+		cadena += "Importe total: " + (calcTotal() - calcDescuento()) + "€ \n";
+		cadena += "Su saldo final sera de: " + (user.getDinero() - (calcTotal() - calcDescuento())) + "€ \n";
 		return cadena;
 	}
-	
+
 	@Override
 	public String toString() {
 		String cadena = "";
