@@ -8,7 +8,6 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
 
-import logica.FileUtil;
 import logica.Menu;
 import logica.Usuario;
 
@@ -18,34 +17,26 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
-public class VentanaRegistro extends JFrame {
+public class VentanaInicioSesion extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel pnPrincipal;
-	private JLabel lblNombreYApellidos;
 	private JLabel lblPassword;
-	private JLabel lblReintroduzcaElPassword;
-	private JTextField txtNombreYApellidos;
 	private JPasswordField passwordField;
-	private JPasswordField passwordFieldRepeat;
 	private JPanel pnRegistro;
 	private JButton btnSiguiente;
 	private JButton btnCancelar;
 	private VentanaPrincipal ventana;
 	private JLabel lblNombreDeUsuario;
 	private JTextField txtNombreUsuario;
-	private JTextField txtDni;
-	private JLabel lblDni;
 	private Menu menu;
 
-	/**
-	 * Create the frame.
-	 */
-	public VentanaRegistro(VentanaPrincipal vi) {
+	public VentanaInicioSesion(VentanaPrincipal vi) {
 		this.ventana = vi;
 		menu = new Menu();
-		setTitle("Registro");
+		setTitle("Inicio de sesi\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 565, 371);
 		pnPrincipal = new JPanel();
@@ -58,86 +49,38 @@ public class VentanaRegistro extends JFrame {
 		pnPrincipal.add(getBtnCancelar());
 	}
 
-	private JLabel getLblNombreYApellidos() {
-		if (lblNombreYApellidos == null) {
-			lblNombreYApellidos = new JLabel("Nombre y Apellidos:");
-			lblNombreYApellidos.setBounds(25, 48, 146, 20);
-			lblNombreYApellidos.setDisplayedMnemonic('N');
-			lblNombreYApellidos.setToolTipText("");
-			lblNombreYApellidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		}
-		return lblNombreYApellidos;
-	}
-
 	private JLabel getLblPassword() {
 		if (lblPassword == null) {
 			lblPassword = new JLabel("Password:");
-			lblPassword.setBounds(25, 144, 73, 20);
+			lblPassword.setBounds(25, 101, 127, 23);
 			lblPassword.setDisplayedMnemonic('P');
-			lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		}
 		return lblPassword;
-	}
-
-	private JLabel getLblReintroduzcaElPassword() {
-		if (lblReintroduzcaElPassword == null) {
-			lblReintroduzcaElPassword = new JLabel("Reintroduzca el password: ");
-			lblReintroduzcaElPassword.setBounds(25, 172, 191, 20);
-			lblReintroduzcaElPassword.setDisplayedMnemonic('R');
-			lblReintroduzcaElPassword.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		}
-		return lblReintroduzcaElPassword;
-	}
-
-	private JTextField getTxtNombreYApellidos() {
-		if (txtNombreYApellidos == null) {
-			txtNombreYApellidos = new JTextField();
-			txtNombreYApellidos.setText("a");
-			txtNombreYApellidos.setBounds(245, 42, 189, 26);
-			txtNombreYApellidos.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			txtNombreYApellidos.setColumns(10);
-		}
-		return txtNombreYApellidos;
 	}
 
 	private JPasswordField getPasswordField() {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
 			passwordField.setText("1");
-			passwordField.setBounds(245, 138, 189, 26);
+			passwordField.setBounds(245, 98, 189, 26);
 			passwordField.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		}
 		return passwordField;
-	}
-
-	private JPasswordField getPasswordFieldRepeat() {
-		if (passwordFieldRepeat == null) {
-			passwordFieldRepeat = new JPasswordField();
-			passwordFieldRepeat.setText("1");
-			passwordFieldRepeat.setBounds(245, 169, 189, 26);
-			passwordFieldRepeat.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		}
-		return passwordFieldRepeat;
 	}
 
 	private JPanel getPnRegistro() {
 		if (pnRegistro == null) {
 			pnRegistro = new JPanel();
 			pnRegistro.setBounds(10, 21, 470, 212);
-			pnRegistro.setBorder(
-					new TitledBorder(null, "Datos del cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			pnRegistro.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Inicio de sesi\u00F3n",
+					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 			pnRegistro.setBackground(Color.WHITE);
 			pnRegistro.setLayout(null);
-			pnRegistro.add(getLblNombreYApellidos());
 			pnRegistro.add(getLblPassword());
-			pnRegistro.add(getLblReintroduzcaElPassword());
-			pnRegistro.add(getTxtNombreYApellidos());
 			pnRegistro.add(getPasswordField());
-			pnRegistro.add(getPasswordFieldRepeat());
 			pnRegistro.add(getLblNombreDeUsuario());
 			pnRegistro.add(getTxtNombreUsuario());
-			pnRegistro.add(getTxtDni());
-			pnRegistro.add(getLblDni());
 		}
 		return pnRegistro;
 	}
@@ -149,15 +92,16 @@ public class VentanaRegistro extends JFrame {
 			btnSiguiente.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if (check()) {
-						if (!menu.dniYaExiste(getTxtDni().getText())) {
-							JOptionPane.showMessageDialog(null, "Registrado con exito");
-							Usuario user = new Usuario(getTxtNombreYApellidos().getText(),
-									getTxtNombreUsuario().getText(), String.valueOf(getPasswordField().getPassword()),
-									getTxtDni().getText(), 100, new int[5]);
-							dispose();
-							FileUtil.aniadirCliente(user);
-						} else
-							JOptionPane.showMessageDialog(null, "DNI ya existente");
+						Usuario u =menu.buscarUsuario(getTxtNombreUsuario().getText(), String.valueOf(getPasswordField().getPassword()));
+						if(u!=null) {
+						JOptionPane.showMessageDialog(null, "Inicio de sesión con exito, hola " + u.getNombreUsuario());
+						// Usuario user = new Usuario(getTxtNombreUsuario().getText(),
+						// getPasswordField().getPassword().toString(), getTxtDni().getText(), 100, new
+						// int[5]);
+						dispose();
+						// FileUtil.aniadirCliente(user);
+						}else
+							JOptionPane.showMessageDialog(null, "Nombre de usuario o contraseña incorrectos");
 					} else
 						JOptionPane.showMessageDialog(null, "Nombre vacio o la contraseña no coincide");
 				}
@@ -187,14 +131,6 @@ public class VentanaRegistro extends JFrame {
 		return btnCancelar;
 	}
 
-	private boolean checkNombreYApellido() {
-		String nombreYApellidos = getTxtNombreYApellidos().getText();
-		if (nombreYApellidos.equals(""))
-			return false;
-		else
-			return true;
-	}
-
 	private boolean checkNombreUsuario() {
 		String nombreUsuario = getTxtNombreUsuario().getText();
 		if (nombreUsuario.equals(""))
@@ -203,25 +139,16 @@ public class VentanaRegistro extends JFrame {
 			return true;
 	}
 
-	private boolean checkDni() {
-		String dni = getTxtDni().getText();
-		if (dni.equals(""))
-			return false;
-		else
-			return true;
-	}
-
 	private boolean checkPassword() {
 		String password = String.valueOf(getPasswordField().getPassword());
-		String repeatPassword = String.valueOf(getPasswordFieldRepeat().getPassword());
-		if (!password.equals(repeatPassword) || password.equals(""))
+		if (password.equals(""))
 			return false;
 		else
 			return true;
 	}
 
 	private boolean check() {
-		if (checkNombreYApellido() && checkPassword() && checkNombreUsuario() && checkDni())
+		if (checkPassword() && checkNombreUsuario())
 			return true;
 		else
 			return false;
@@ -235,9 +162,9 @@ public class VentanaRegistro extends JFrame {
 		if (lblNombreDeUsuario == null) {
 			lblNombreDeUsuario = new JLabel("Nombre de usuario:");
 			lblNombreDeUsuario.setToolTipText("");
-			lblNombreDeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			lblNombreDeUsuario.setFont(new Font("Tahoma", Font.PLAIN, 21));
 			lblNombreDeUsuario.setDisplayedMnemonic('N');
-			lblNombreDeUsuario.setBounds(25, 82, 146, 20);
+			lblNombreDeUsuario.setBounds(25, 49, 199, 31);
 		}
 		return lblNombreDeUsuario;
 	}
@@ -248,30 +175,8 @@ public class VentanaRegistro extends JFrame {
 			txtNombreUsuario.setText("a");
 			txtNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 16));
 			txtNombreUsuario.setColumns(10);
-			txtNombreUsuario.setBounds(245, 76, 189, 26);
+			txtNombreUsuario.setBounds(245, 49, 189, 26);
 		}
 		return txtNombreUsuario;
-	}
-
-	private JTextField getTxtDni() {
-		if (txtDni == null) {
-			txtDni = new JTextField();
-			txtDni.setText("a");
-			txtDni.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			txtDni.setColumns(10);
-			txtDni.setBounds(245, 108, 189, 26);
-		}
-		return txtDni;
-	}
-
-	private JLabel getLblDni() {
-		if (lblDni == null) {
-			lblDni = new JLabel("DNI:");
-			lblDni.setToolTipText("");
-			lblDni.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblDni.setDisplayedMnemonic('N');
-			lblDni.setBounds(25, 111, 62, 20);
-		}
-		return lblDni;
 	}
 }

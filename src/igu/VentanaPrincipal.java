@@ -9,7 +9,6 @@ import javax.swing.border.EmptyBorder;
 
 import logica.Menu;
 import logica.OrderBar;
-import logica.ProductBar;
 import logica.Usuario;
 
 import java.awt.Color;
@@ -27,14 +26,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.net.URL;
 import java.awt.event.ActionEvent;
-import java.awt.ComponentOrientation;
-import javax.swing.JComboBox;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -57,29 +49,6 @@ public class VentanaPrincipal extends JFrame {
 	private JButton btnMesaDeJuego;
 	private JButton btnBanca;
 	private JButton btnConsumiciones;
-	private JPanel pnFiltrosBar;
-	private JLabel lblFiltros;
-	private JButton btnFiltro1;
-	private JPanel pnBotones;
-	private JPanel pnRelleno2;
-	private JPanel pnSiguienteCancelar;
-	private JPanel pnPrinicpalBar;
-	private JLabel lblConsumiciones;
-	private JLabel lblUnidades;
-	private JComboBox<ProductBar> cmbBoxBar;
-	private JSpinner spnUnidadesBar;
-	private JPanel pnAnnadirEliminarBar;
-	private JButton btnAadir;
-	private JButton btnEliminar;
-	private JPanel pnPrecioBar;
-	private JTextField txtPrecioDelPedidoBar;
-	private JLabel lblPrecioDelPedido;
-	private JButton btnCancelar;
-	private JButton btnSiguiente;
-	private JPanel pnCarritoBar;
-	private JScrollPane scrollPane;
-	private JTextArea textArea;
-	private JLabel lblPedido;
 
 	private Menu menu;
 	private OrderBar orderBar;
@@ -189,6 +158,11 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnIniciarSesion() {
 		if (btnIniciarSesion == null) {
 			btnIniciarSesion = new JButton("Iniciar sesion");
+			btnIniciarSesion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					mostrarVentanaInicioSesion();
+				}
+			});
 			btnIniciarSesion.setMnemonic('I');
 		}
 		return btnIniciarSesion;
@@ -198,6 +172,12 @@ public class VentanaPrincipal extends JFrame {
 		 VentanaRegistro vR = new VentanaRegistro(this);
 		 vR.setLocationRelativeTo(this);
 		 vR.setVisible(true);
+	}
+	
+	private void mostrarVentanaInicioSesion() {
+		 VentanaInicioSesion vI = new VentanaInicioSesion(this);
+		 vI.setLocationRelativeTo(this);
+		 vI.setVisible(true);
 	}
 
 	private void mostrarVentanaBanca() {
@@ -226,6 +206,11 @@ public class VentanaPrincipal extends JFrame {
 	private JButton getBtnMesaDeJuego() {
 		if (btnMesaDeJuego == null) {
 			btnMesaDeJuego = new JButton("Mesa de juego");
+			btnMesaDeJuego.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					menu.getUsuarios();
+				}
+			});
 			btnMesaDeJuego.setMnemonic('M');
 		}
 		return btnMesaDeJuego;
@@ -251,238 +236,11 @@ public class VentanaPrincipal extends JFrame {
 			btnConsumiciones.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					mostrarVentanaBar();
-
 				}
 			});
 			btnConsumiciones.setMnemonic('C');
 		}
 		return btnConsumiciones;
-	}
-
-	private JPanel getPnFiltrosBar() {
-		if (pnFiltrosBar == null) {
-			pnFiltrosBar = new JPanel();
-			pnFiltrosBar.setLayout(new GridLayout(4, 1, 0, 0));
-			pnFiltrosBar.add(getLblFiltros());
-			pnFiltrosBar.add(getBtnFiltro1());
-		}
-		return pnFiltrosBar;
-	}
-
-	private JLabel getLblFiltros() {
-		if (lblFiltros == null) {
-			lblFiltros = new JLabel("Filtros");
-		}
-		return lblFiltros;
-	}
-
-	private JButton getBtnFiltro1() {
-		if (btnFiltro1 == null) {
-			btnFiltro1 = new JButton("New button");
-		}
-		return btnFiltro1;
-	}
-
-	private JPanel getPnBotones() {
-		if (pnBotones == null) {
-			pnBotones = new JPanel();
-			pnBotones.setLayout(new GridLayout(0, 2, 0, 0));
-			pnBotones.add(getPnRelleno2());
-			pnBotones.add(getPnSiguienteCancelar());
-		}
-		return pnBotones;
-	}
-
-	private JPanel getPnRelleno2() {
-		if (pnRelleno2 == null) {
-			pnRelleno2 = new JPanel();
-		}
-		return pnRelleno2;
-	}
-
-	private JPanel getPnSiguienteCancelar() {
-		if (pnSiguienteCancelar == null) {
-			pnSiguienteCancelar = new JPanel();
-			pnSiguienteCancelar.setLayout(new GridLayout(0, 2, 0, 0));
-			pnSiguienteCancelar.add(getBtnCancelar());
-			pnSiguienteCancelar.add(getBtnSiguiente());
-		}
-		return pnSiguienteCancelar;
-	}
-
-	private JPanel getPnPrinicpalBar() {
-		if (pnPrinicpalBar == null) {
-			pnPrinicpalBar = new JPanel();
-			pnPrinicpalBar.setLayout(new GridLayout(3, 2, 0, 0));
-			pnPrinicpalBar.add(getLblConsumiciones());
-			pnPrinicpalBar.add(getLblUnidades());
-			pnPrinicpalBar.add(getCmbBoxBar());
-			pnPrinicpalBar.add(getSpnUnidadesBar());
-			pnPrinicpalBar.add(getPnAnnadirEliminarBar());
-			pnPrinicpalBar.add(getPnPrecioBar());
-		}
-		return pnPrinicpalBar;
-	}
-
-	private JLabel getLblConsumiciones() {
-		if (lblConsumiciones == null) {
-			lblConsumiciones = new JLabel("Consumiciones");
-			lblConsumiciones.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		}
-		return lblConsumiciones;
-	}
-
-	private JLabel getLblUnidades() {
-		if (lblUnidades == null) {
-			lblUnidades = new JLabel("Unidades");
-		}
-		return lblUnidades;
-	}
-
-	private JComboBox<ProductBar> getCmbBoxBar() {
-		if (cmbBoxBar == null) {
-			cmbBoxBar = new JComboBox<ProductBar>();
-		}
-		return cmbBoxBar;
-	}
-
-	private JSpinner getSpnUnidadesBar() {
-		if (spnUnidadesBar == null) {
-			spnUnidadesBar = new JSpinner();
-			spnUnidadesBar.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		}
-		return spnUnidadesBar;
-	}
-
-	private JPanel getPnAnnadirEliminarBar() {
-		if (pnAnnadirEliminarBar == null) {
-			pnAnnadirEliminarBar = new JPanel();
-			pnAnnadirEliminarBar.setLayout(new GridLayout(0, 2, 0, 0));
-			pnAnnadirEliminarBar.add(getBtnAnnadir());
-			pnAnnadirEliminarBar.add(getBtnEliminar());
-		}
-		return pnAnnadirEliminarBar;
-	}
-
-	private JButton getBtnAnnadir() {
-		if (btnAadir == null) {
-			btnAadir = new JButton("A\u00F1adir");
-			btnAadir.setMnemonic('A');
-			btnAadir.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if ((int) getSpnUnidadesBar().getValue() > 0) {
-						orderBar.add((ProductBar) getCmbBoxBar().getSelectedItem(),
-								(int) getSpnUnidadesBar().getValue());
-						String precio = orderBar.calcTotal() + "";
-						getTxtPrecioDelPedidoBar().setText(precio);
-						getSpnUnidadesBar().setValue(1);
-						if (!orderBar.getOrderList().isEmpty())
-							getBtnSiguiente().setEnabled(true);
-					} else
-						JOptionPane.showMessageDialog(null, "Por favor seleccione al menos una unidad del producto");
-				}
-			});
-		}
-		return btnAadir;
-	}
-
-	private JButton getBtnEliminar() {
-		if (btnEliminar == null) {
-			btnEliminar = new JButton("Eliminar");
-			btnEliminar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if (orderBar.unidadesDelPedido(
-							(ProductBar) (getCmbBoxBar().getSelectedItem())) >= (int) getSpnUnidadesBar().getValue()) {
-						orderBar.remove((ProductBar) getCmbBoxBar().getSelectedItem(),
-								(int) getSpnUnidadesBar().getValue());
-						String precio = orderBar.calcTotal() + "";
-						getTxtPrecioDelPedidoBar().setText(precio);
-						getSpnUnidadesBar().setValue(1);
-						if (orderBar.getOrderList().isEmpty())
-							getBtnSiguiente().setEnabled(false);
-					} else
-						JOptionPane.showMessageDialog(null, "No puedes borrar un producto que no has pedido");
-				}
-			});
-			btnEliminar.setMnemonic('E');
-		}
-		return btnEliminar;
-	}
-
-	private JPanel getPnPrecioBar() {
-		if (pnPrecioBar == null) {
-			pnPrecioBar = new JPanel();
-			pnPrecioBar.setLayout(new GridLayout(2, 1, 0, 0));
-			pnPrecioBar.add(getLblPrecioDelPedido());
-			pnPrecioBar.add(getTxtPrecioDelPedidoBar());
-		}
-		return pnPrecioBar;
-	}
-
-	private JTextField getTxtPrecioDelPedidoBar() {
-		if (txtPrecioDelPedidoBar == null) {
-			txtPrecioDelPedidoBar = new JTextField();
-			txtPrecioDelPedidoBar.setEditable(false);
-			txtPrecioDelPedidoBar.setText("");
-			txtPrecioDelPedidoBar.setColumns(10);
-		}
-		return txtPrecioDelPedidoBar;
-	}
-
-	private JLabel getLblPrecioDelPedido() {
-		if (lblPrecioDelPedido == null) {
-			lblPrecioDelPedido = new JLabel("Precio del pedido:");
-		}
-		return lblPrecioDelPedido;
-	}
-
-	private JButton getBtnCancelar() {
-		if (btnCancelar == null) {
-			btnCancelar = new JButton("Cancelar");
-			btnCancelar.setBackground(new Color(255, 0, 0));
-		}
-		return btnCancelar;
-	}
-
-	private JButton getBtnSiguiente() {
-		if (btnSiguiente == null) {
-			btnSiguiente = new JButton("Siguiente");
-			btnSiguiente.setBackground(new Color(127, 255, 0));
-		}
-		return btnSiguiente;
-	}
-
-	private JPanel getPnCarritoBar() {
-		if (pnCarritoBar == null) {
-			pnCarritoBar = new JPanel();
-			pnCarritoBar.setLayout(new GridLayout(2, 1, 0, 0));
-			pnCarritoBar.add(getLblPedido());
-			pnCarritoBar.add(getScrollPane());
-		}
-		return pnCarritoBar;
-	}
-
-	private JScrollPane getScrollPane() {
-		if (scrollPane == null) {
-			scrollPane = new JScrollPane();
-			scrollPane.setViewportView(getTextArea());
-		}
-		return scrollPane;
-	}
-
-	private JTextArea getTextArea() {
-		if (textArea == null) {
-			textArea = new JTextArea();
-			textArea.setEditable(false);
-		}
-		return textArea;
-	}
-
-	private JLabel getLblPedido() {
-		if (lblPedido == null) {
-			lblPedido = new JLabel("Pedido");
-		}
-		return lblPedido;
 	}
 
 	private JMenuBar getMenuBar_1() {
